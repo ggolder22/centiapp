@@ -1,13 +1,14 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, TrendingUp, Calendar, Bot, Briefcase, LogOut } from 'lucide-react'
+import { LayoutDashboard, TrendingUp, Calendar, Bot, Briefcase, FolderKanban, LogOut } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 
 const links = [
-  { to: '/',           label: 'Dashboard',  icon: LayoutDashboard },
-  { to: '/finanzas',   label: 'Finanzas',   icon: TrendingUp },
-  { to: '/calendario', label: 'Calendario', icon: Calendar },
-  { to: '/asistente',  label: 'Asistente',  icon: Bot },
-  { to: '/trabajo',    label: 'Trabajo',    icon: Briefcase },
+  { to: '/',            label: 'Dashboard',  icon: LayoutDashboard },
+  { to: '/finanzas',    label: 'Finanzas',   icon: TrendingUp },
+  { to: '/proyectos',   label: 'Proyectos',  icon: FolderKanban },
+  { to: '/calendario',  label: 'Calendario', icon: Calendar },
+  { to: '/asistente',   label: 'Asistente',  icon: Bot },
+  { to: '/trabajo',     label: 'Trabajo',    icon: Briefcase },
 ]
 
 export default function Sidebar() {

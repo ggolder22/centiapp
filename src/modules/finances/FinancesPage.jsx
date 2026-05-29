@@ -1,8 +1,14 @@
+import { useEffect } from 'react'
+import { useFinanceStore } from '../../store/financeStore'
 import SummaryCards from './components/SummaryCards'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
 
 export default function FinancesPage() {
+  const fetchTransactions = useFinanceStore((s) => s.fetchTransactions)
+
+  useEffect(() => { fetchTransactions() }, [fetchTransactions])
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>

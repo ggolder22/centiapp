@@ -1,50 +1,55 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { supabase } from '../core/supabase'
 
 const CATEGORIES_INCOME = ['Sueldo', 'Docencia', 'Marketing', 'Programación', 'Automatización', 'Freelance', 'Inversión', 'Otro ingreso']
 const CATEGORIES_EXPENSE = ['Vivienda', 'Comida', 'Transporte', 'Salud', 'Educación', 'Entretenimiento', 'Servicios', 'Otro gasto']
 
 export const CATEGORIES = { income: CATEGORIES_INCOME, expense: CATEGORIES_EXPENSE }
 
-export const useFinanceStore = create(
-  persist(
-    (set, get) => ({
-      transactions: [],
+export const useFinanceStore = create((set, get) => ({
+  transactions: [],
+  loading: false,
 
-      addTransaction: (tx) =>
-        set((s) => ({
-          transactions: [
-            { ...tx, id: crypto.randomUUID(), createdAt: new Date().toISOString() },
-            ...s.transactions,
-          ],
-        })),
+  fetchTransactions: async () => {
+    set({ loading: true })
+    const { data, error } = await supabase
+      .from('transactions')
+      .select('*')
+      .order('date', { ascending: false })
+    if (!error) set({ transactions: data })
+    set({ loading: false })
+  },
 
-      deleteTransaction: (id) =>
-        set((s) => ({ transactions: s.transactions.filter((t) => t.id !== id) })),
+  addTransaction: async (tx) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    const { data, error } = await supabase
+      .from('transactions')
+      .insert({ ...tx, user_id: user.id })
+      .select()
+      .single()
+    if (!error) set((s) => ({ transactions: [data, ...s.transactions] }))
+  },
 
-      // Derived selectors
-      getTotals: () => {
-        const { transactions } = get()
-        const income = transactions
-          .filter((t) => t.type === 'income')
-          .reduce((sum, t) => sum + t.amount, 0)
-        const expense = transactions
-          .filter((t) => t.type === 'expense')
-          .reduce((sum, t) => sum + t.amount, 0)
-        return { income, expense, balance: income - expense }
-      },
+  deleteTransaction: async (id) => {
+    const { error } = await supabase.from('transactions').delete().eq('id', id)
+    if (!error) set((s) => ({ transactions: s.transactions.filter((t) => t.id !== id) }))
+  },
 
-      getMonthlyData: () => {
-        const { transactions } = get()
-        const map = {}
-        transactions.forEach((t) => {
-          const month = t.date.slice(0, 7) // "YYYY-MM"
-          if (!map[month]) map[month] = { month, income: 0, expense: 0 }
-          map[month][t.type] += t.amount
-        })
-        return Object.values(map).sort((a, b) => a.month.localeCompare(b.month))
-      },
-    }),
-    { name: 'centiapp-finances' }
-  )
-)
+  getTotals: () => {
+    const { transactions } = get()
+    const income = transactions.filter((t) => t.type === 'income').reduce((s, t) => s + Number(t.amount), 0)
+    const expense = transactions.filter((t) => t.type === 'expense').reduce((s, t) => s + Number(t.amount), 0)
+    return { income, expense, balance: income - expense }
+  },
+
+  getMonthlyData: () => {
+    const { transactions } = get()
+    const map = {}
+    transactions.forEach((t) => {
+      const month = t.date.slice(0, 7)
+      if (!map[month]) map[month] = { month, income: 0, expense: 0 }
+      map[month][t.type] += Number(t.amount)
+    })
+    return Object.values(map).sort((a, b) => a.month.localeCompare(b.month))
+  },
+}))

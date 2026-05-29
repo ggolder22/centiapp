@@ -1,5 +1,7 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import Layout from '../../shared/components/Layout'
+import ProtectedRoute from '../../shared/components/ProtectedRoute'
+import AuthPage from '../../modules/auth/AuthPage'
 import Dashboard from '../../modules/finances/Dashboard'
 import FinancesPage from '../../modules/finances/FinancesPage'
 import CalendarPage from '../../modules/calendar/CalendarPage'
@@ -8,8 +10,16 @@ import WorkPage from '../../modules/work/WorkPage'
 
 const router = createBrowserRouter([
   {
+    path: '/login',
+    element: <AuthPage />,
+  },
+  {
     path: '/',
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: 'finanzas', element: <FinancesPage /> },
@@ -18,6 +28,7 @@ const router = createBrowserRouter([
       { path: 'trabajo', element: <WorkPage /> },
     ],
   },
+  { path: '*', element: <Navigate to="/" replace /> },
 ])
 
 export default router

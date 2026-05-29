@@ -1,16 +1,18 @@
+import { useEffect } from 'react'
 import { useFinanceStore } from '../../store/financeStore'
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
-} from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 import SummaryCards from './components/SummaryCards'
 
 const fmt = (n) =>
   new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(n)
 
 export default function Dashboard() {
+  const fetchTransactions = useFinanceStore((s) => s.fetchTransactions)
   const getMonthlyData = useFinanceStore((s) => s.getMonthlyData)
   const transactions = useFinanceStore((s) => s.transactions)
   const data = getMonthlyData()
+
+  useEffect(() => { fetchTransactions() }, [fetchTransactions])
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">

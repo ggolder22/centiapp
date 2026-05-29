@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-const CATEGORIES_INCOME = ['Sueldo', 'Freelance', 'Inversión', 'Otro ingreso']
+const CATEGORIES_INCOME = ['Sueldo', 'Docencia', 'Marketing', 'Programación', 'Automatización', 'Freelance', 'Inversión', 'Otro ingreso']
 const CATEGORIES_EXPENSE = ['Vivienda', 'Comida', 'Transporte', 'Salud', 'Educación', 'Entretenimiento', 'Servicios', 'Otro gasto']
 
 export const CATEGORIES = { income: CATEGORIES_INCOME, expense: CATEGORIES_EXPENSE }

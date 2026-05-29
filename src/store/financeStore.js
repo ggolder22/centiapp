@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { supabase } from '../core/supabase'
 
 const CATEGORIES_INCOME = ['Sueldo', 'Docencia', 'Marketing', 'Programación', 'Automatización', 'Freelance', 'Inversión', 'Otro ingreso']
-const CATEGORIES_EXPENSE = ['Vivienda', 'Comida', 'Transporte', 'Salud', 'Educación', 'Entretenimiento', 'Servicios', 'Otro gasto']
+const CATEGORIES_EXPENSE = ['Vivienda', 'Comida', 'Transporte', 'Salud', 'Educación', 'Entretenimiento', 'Servicios', 'Proyectos', 'Otro gasto']
 
 export const CATEGORIES = { income: CATEGORIES_INCOME, expense: CATEGORIES_EXPENSE }
 

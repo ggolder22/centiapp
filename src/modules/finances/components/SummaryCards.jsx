@@ -21,7 +21,7 @@ export default function SummaryCards() {
   const { income, expense, balance } = getTotals()
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <Card label="Ingresos" value={income} icon={TrendingUp} color="bg-emerald-600" />
       <Card label="Gastos" value={expense} icon={TrendingDown} color="bg-rose-600" />
       <Card

@@ -18,7 +18,7 @@ export default function FinancesPage() {
 
       <SummaryCards />
 
-      <div className="grid grid-cols-[320px_1fr] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6 items-start">
         <TransactionForm />
         <TransactionList />
       </div>

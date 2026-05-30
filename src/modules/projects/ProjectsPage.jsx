@@ -15,7 +15,7 @@ export default function ProjectsPage() {
         <p className="text-sm text-gray-400 mt-1">Gestioná tus proyectos y sus gastos asociados</p>
       </div>
 
-      <div className="grid grid-cols-[320px_1fr] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6 items-start">
         <ProjectForm />
 
         <div>

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, TrendingUp, Calendar, Bot, Briefcase, FolderKanban, LogOut } from 'lucide-react'
+import { LayoutDashboard, TrendingUp, Calendar, Bot, Briefcase, FolderKanban, LogOut, X } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 
 const links = [
@@ -11,15 +11,22 @@ const links = [
   { to: '/trabajo',     label: 'Trabajo',    icon: Briefcase },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ onClose }) {
   const user = useAuthStore((s) => s.user)
   const signOut = useAuthStore((s) => s.signOut)
 
   return (
-    <aside className="w-56 shrink-0 bg-gray-900 text-white min-h-screen flex flex-col py-6 px-3">
-      <div className="px-3 mb-6">
-        <h1 className="text-xl font-bold text-indigo-400 tracking-tight">CentiApp</h1>
-        <p className="text-xs text-gray-400 mt-0.5">Control personal</p>
+    <aside className="w-64 md:w-56 shrink-0 bg-gray-900 text-white min-h-screen flex flex-col py-6 px-3">
+      <div className="flex items-center justify-between px-3 mb-6">
+        <div>
+          <h1 className="text-xl font-bold text-indigo-400 tracking-tight">CentiApp</h1>
+          <p className="text-xs text-gray-400 mt-0.5">Control personal</p>
+        </div>
+        {onClose && (
+          <button onClick={onClose} className="md:hidden text-gray-400 hover:text-gray-100 transition-colors">
+            <X size={20} />
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 flex flex-col gap-1">
@@ -28,6 +35,7 @@ export default function Sidebar() {
             key={to}
             to={to}
             end={to === '/'}
+            onClick={onClose}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive

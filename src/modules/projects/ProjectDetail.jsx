@@ -44,7 +44,7 @@ export default function ProjectDetail() {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button onClick={() => navigate('/proyectos')} className="text-gray-400 hover:text-gray-100 transition-colors">
           <ArrowLeft size={20} />
         </button>
@@ -65,7 +65,7 @@ export default function ProjectDetail() {
       </div>
 
       {/* Resumen */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-gray-800 rounded-xl p-5">
           <p className="text-xs text-gray-400">Total gastado</p>
           <p className="text-2xl font-bold text-rose-400 mt-1">{fmt(total)}</p>
